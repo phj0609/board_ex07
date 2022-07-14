@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.hyun.mapper.BoardMapper">
+	<select id="getList" resultType="me.hyun.model.BoardVO">
+		select * from board_tbl
+	</select>
+	<select id="get" resultType="me.hyun.model.BoardVO">
+		select * from board_tbl where bno = #{bno}
+	</select>
+	<insert id="insert">
+		insert into board_tbl(title, content, Writer)
+		value (#{title}, #{content},#{writer});
+	</insert>
+	<insert id="update">
+		update board_tbl set
+		title = #{title},
+		content = #{content},
+		updateDate = now()
+		where bno = #{bno}
+	</insert>
+	<insert id="delete">
+		delete from board_tbl where bno = #{bno}
+	</insert>
+		
+</mapper>
