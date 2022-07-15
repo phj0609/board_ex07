@@ -47,6 +47,7 @@ public class BoardMapperTest extends AppTest {
 	}
 	
 	@Test
+	@Ignore
 	public void deleteTest() {
 		mapper.delete(5L);
 	}

@@ -5,11 +5,17 @@ import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.backoff.BackOff;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+
+import me.hyun.mapper.BoardMapper;
+import me.hyun.service.BoardService;
+import me.hyun.service.BoardServiceImpl;
 
 @Configuration
 @MapperScan("me.hyun.mapper")
