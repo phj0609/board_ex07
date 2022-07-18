@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../layout/header.jsp" %>
-<%-- <input type="hidden" name="bno" value="${board.bno}" id=>
+<input type="hidden" name="bno" value="${board.bno}" id="bno">
+<%-- 
 <input type="hidden" name="title" value="${board.title}">
 <input type="hidden" name="content" value="${board.content}">
 <input type="hidden" name="regDate" value="${board.regDate}">
-<input type="hidden" name="updateDate" value="${board.updateDate}"> --%>
+<input type="hidden" name="updateDate" value="${board.updateDate}">
+--%>
 <div class="container">
    <div class="jumbotron">
       <h2>게시글 목록</h2>
@@ -23,8 +25,8 @@
 	   		</div>
 			<div class="card-footer d-flex justify-content-between">
 				<div>		   		
-			   		<button class="btn btn-warning">수정</button>
-			   		<button class="btn btn-danger">삭제</button>
+			   		<button class="btn btn-warning modify">수정</button>
+			   		<button class="btn btn-danger remove">삭제</button>
 			   		<button class="btn btn-success list">목록</button>
 		   		</div>
 		   		<div>
@@ -53,13 +55,28 @@ tr:nth-child(even) {
 </style>
 <script>
 	$(function(){
-		let getForm = $('#getForm');
-		$('#getForm .list').on('click', function(e) {
-			let inputTitleTag = '<input type="hidden" name="title" value="${board.title}">';
+		let getForm = $('#getForm'); // 폼 태그 변수 선언
+		
+		$('#getForm .list').on('click', function(e) { // 목록 버튼 클릭했을 때
 			e.preventDefault();
-			// console.log('기본동작금지')
 			getForm.attr("action","list");
-			getForm.append(inputTitleTag);
+			getForm.attr("method","post");
+			getForm.submit();
+		});
+		
+		$('#getForm .modify').on('click', function(e) { // 수정 버튼 클릭했을 때
+			e.preventDefault();
+			getForm.append($('#bno'))
+			getForm.attr("action","modify");
+			getForm.attr("method","post");
+			getForm.submit();
+		});
+		
+		$('#getForm .remove').on('click', function(e) { // 삭제 버튼 클릭했을 때
+			e.preventDefault();
+			getForm.append($('#bno'))
+			getForm.attr("action","remove");
+			getForm.attr("method","post");
 			getForm.submit();
 		})
 	})	

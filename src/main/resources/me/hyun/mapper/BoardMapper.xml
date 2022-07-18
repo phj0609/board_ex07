@@ -8,6 +8,9 @@
 		select * from board_tbl where bno = #{bno}
 	</select>
 	<insert id="insert">
+		<selectKey keyProperty="bno" resultType="java.lang.Long" order="AFTER">
+			SELECT LAST_INSERT_ID()		
+		</selectKey>
 		insert into board_tbl(title, content, Writer)
 		value (#{title}, #{content},#{writer});
 	</insert>
