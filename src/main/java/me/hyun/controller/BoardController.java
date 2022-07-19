@@ -16,6 +16,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import me.hyun.exception.NotFoundBoardException;
 import me.hyun.model.BoardVO;
+import me.hyun.model.Criteria;
+import me.hyun.model.PageMarker;
 import me.hyun.service.BoardService;
 
 @Controller
@@ -30,10 +32,11 @@ public class BoardController {
 	}
 
 	@GetMapping("/list")
-	public String getList(Model model) {
-		List<BoardVO> readAll = service.readAll();
-		System.out.println(readAll);
-		model.addAttribute("list", service.readAll());
+	public String getList(Model model, Criteria criteria) {
+		PageMarker pageMarker = new PageMarker(criteria, 412);
+		List<BoardVO> readAll = service.readAll(criteria);
+		model.addAttribute("pageMarker", pageMarker);
+		model.addAttribute("list", readAll);
 		return "board/list";
 	}
 	

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import me.hyun.mapper.BoardMapper;
 import me.hyun.model.BoardVO;
+import me.hyun.model.Criteria;
 
 @Service
 @Primary
@@ -26,9 +27,9 @@ public class BoardServiceImplBB implements BoardService {
 	}
 
 	@Override
-	public List<BoardVO> readAll() {
+	public List<BoardVO> readAll(Criteria criteria) {
 		System.out.println("구현BB사용");
-		return mapper.getList();
+		return mapper.getList(criteria);
 	}
 
 	@Override
