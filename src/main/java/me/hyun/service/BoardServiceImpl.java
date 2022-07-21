@@ -14,7 +14,7 @@ import me.hyun.model.Criteria;
 public class BoardServiceImpl implements BoardService {
 
 	public BoardServiceImpl() {
-		System.out.println("첫번째 구현체");
+//		System.out.println("첫번째 구현체");
 	}
 	
 	private BoardMapper mapper;
@@ -48,6 +48,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void remove(Long bno) {
 		mapper.delete(bno);
+	}
+
+	@Override
+	public Integer getTotal(Criteria criteria) {
+		return mapper.totalCount(criteria);
 	}
 
 }

@@ -19,12 +19,8 @@
     <a class="navbar-brand" href="${contextPath}">Home</a>
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav me-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="">
-          </a>
-        </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+          <a class="nav-link" href="${contextPath}/board/list">게시판</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Pricing</a>

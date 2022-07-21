@@ -33,7 +33,7 @@ public class BoardController {
 
 	@GetMapping("/list")
 	public String getList(Model model, Criteria criteria) {
-		PageMarker pageMarker = new PageMarker(criteria, 412);
+		PageMarker pageMarker = new PageMarker(criteria, service.getTotal(criteria));
 		List<BoardVO> readAll = service.readAll(criteria);
 		model.addAttribute("pageMarker", pageMarker);
 		model.addAttribute("list", readAll);

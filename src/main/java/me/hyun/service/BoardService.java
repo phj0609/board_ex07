@@ -11,4 +11,5 @@ public interface BoardService {
 	void register(BoardVO vo);
 	void modify(BoardVO vo);
 	void remove(Long bno);
+	Integer getTotal(Criteria criteria);
 }

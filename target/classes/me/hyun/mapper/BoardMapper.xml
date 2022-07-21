@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="me.hyun.mapper.BoardMapper">
+	
+	<sql id="searchCondition">
+		<where>
+				<trim prefixOverrides="or">
+					<foreach collection="typeCollection" item="tp">
+						<trim prefix="or">
+							<choose>
+								<when test="tp=='T'.toString()">
+									title like concat('%',#{keyword},'%')
+								</when>
+								<when test="tp=='C'.toString()">
+									content like concat('%',#{keyword},'%')
+								</when>
+								<when test="tp=='W'.toString()">
+									writer like concat('%',#{keyword},'%')
+								</when>
+							</choose>
+						</trim>
+					</foreach>
+				</trim>
+		</where>
+	</sql>
+	
 	<select id="getList" resultType="me.hyun.model.BoardVO">
-		select * from board_tbl limit #{pageStart}, #{perPageNum}
+		select * from board_tbl
+		<include refid="searchCondition" />
+		limit #{pageStart},#{perPageNum} 
 	</select>
 	<select id="get" resultType="me.hyun.model.BoardVO">
 		select * from board_tbl where bno = #{bno}
@@ -24,5 +49,10 @@
 	<insert id="delete">
 		delete from board_tbl where bno = #{bno}
 	</insert>
+	
+	<select id="totalCount" resultType="java.lang.Integer">
+		select count(bno) from board_tbl 
+		<include refid="searchCondition" />
+	</select>
 		
 </mapper>

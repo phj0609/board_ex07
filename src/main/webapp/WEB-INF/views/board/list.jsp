@@ -6,9 +6,35 @@
       <h2>게시글 목록</h2>
    </div>
    
-   <div>
-   		<a href="register">글쓰기</a>
-   </div>
+   <!-- 검색 -->
+  <div class="row">
+		<div class="col-md-9">
+			<form action="${contextPath}/board/list" id="searchForm">
+				<input type="hidden" name="page" value="${pageMarker.criteria.page}">
+				<div class="row">
+					<div class="col-md-3" class="form-group">
+						<select class="form-control" name="type" id="type">
+							<option value="">검색종류선택</option>
+							<option value="T" ${param.type=='T' ? 'selected':'' }>제목</option>
+							<option value="C" ${param.type=='C' ? 'selected':'' }>내용</option>
+							<option value="W" ${param.type=='W' ? 'selected':'' }>작성자</option>
+							<option value="TC" ${param.type=='TC' ? 'selected':'' }>제목+내용</option>
+							<option value="TW" ${param.type=='TW' ? 'selected':'' }>제목+작성자</option>
+							<option value="CW" ${param.type=='CW' ? 'selected':'' }>내용+작성자</option>
+						</select> 
+					</div>
+					<div class="col-md-7 form-group">
+						<input type="search" id="keyword" value="${param.keyword}" class="form-control" name="keyword" placeholder="검색어를 입력해주세요">
+					</div>
+					<div class="col-md-2 form-group">
+						<button class="btn btn-primary form-control">검색</button>
+					</div>
+				</div> 
+			</form>
+		</div>
+		<div class="bg-succes col-md-3 text-right">
+			<a href="register">글쓰기</a>
+		</div>
    
    <table class="table">
    		<tr>
@@ -36,21 +62,28 @@
    			</tr>
    		</c:forEach>
    </table>
-   
-	
-	<ul class="pagination my-3 py-3">
-	<c:if test="${pageMarker.prev}">
-		<li class="page-item"><a class="page-link" href="${pageMarker.startPage-1}">Previous</a></li>
-	</c:if>
-	<c:forEach begin="${pageMarker.startPage}" end="${pageMarker.endPage}" var="page">
-		<li class="page-item ${pageMarker.criteria.page == page ? 'active' : ''}"><a class="page-link" href="${page}">${page}</a></li>
-	</c:forEach>
-	<c:if test="${pageMarker.next}">
-		<li class="page-item"><a class="page-link" href="${pageMarker.endPage+1}">Next</a></li>
-	</c:if>
-	</ul>
-
 </div>
+		<div class="d-flex justify-content-center">
+			<ul class="pagination my-3 py-3">
+			<c:if test="${pageMarker.prev}">
+				<li class="page-item">
+					<a class="page-link" href="${pageMarker.startPage-1}">이전</a>
+				</li>
+			</c:if>
+	
+			<c:forEach begin="${pageMarker.startPage}" end="${pageMarker.endPage}" var="page">
+				<li class="page-item ${pageMarker.criteria.page == page ? 'active':''}">
+					<a class="page-link" href="${page}">${page}</a>
+				</li>
+			</c:forEach>	
+	
+			<c:if test="${pageMarker.next}">	
+				<li class="page-item">
+					<a class="page-link" href="${pageMarker.endPage+1}">다음</a>
+				</li>
+			</c:if>
+			</ul>
+		</div>
 <div class="modal" id="feedback">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -92,6 +125,7 @@ tr:nth-child(even) {
 $(function(){
 	let result = "${result}"
 	let message = "";
+	
 	if(result.trim()!=''){
 		if(result == 'register') {
 			message = "${bno}번 글을 등록하였습니다."
@@ -111,10 +145,28 @@ $(function(){
 		let pageNum = $(this).attr("href"); // 이동할 페이지
 		pageForm.append($('<input/>', {type:'hidden', name:'page', value:pageNum}));
 		
+		if($('#keyword').val().trim()!='') {
+			pageForm.append($('#type')) // 검색타입
+			pageForm.append($('#keyword')) // 검색키워드
+		}
+	
 		pageForm.attr('action','list');
 		pageForm.attr('method','get');
 		pageForm.appendTo('body');
 		pageForm.submit();
 	});
+	
+	$('#searchForm button').on('click', function(e) {
+		e.preventDefault();
+		if($('#type').val() =='') {
+			alert('타입을 선택하세요')
+			return; 	
+		}
+		if($('#keyword').val().trim() =='') {
+			alert('키워드를 입력하세요')
+			return;
+		}
+		$('#searchForm').submit() 
+	})
 });
 </script>
