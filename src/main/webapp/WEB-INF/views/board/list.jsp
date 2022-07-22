@@ -10,7 +10,6 @@
   <div class="row">
 		<div class="col-md-9">
 			<form action="${contextPath}/board/list" id="searchForm">
-				<input type="hidden" name="page" value="${pageMarker.criteria.page}">
 				<div class="row">
 					<div class="col-md-3" class="form-group">
 						<select class="form-control" name="type" id="type">
@@ -48,7 +47,7 @@
    			<tr>
    				<td>${b.bno}</td>
    				<td>
-   					<a href="get?bno=${b.bno}">${b.title}</a>
+   					<a href="${b.bno}" class="article">${b.title}</a>
    				</td>
    				<td>${b.writer}</td>
    				<td>
@@ -138,6 +137,25 @@ $(function(){
 		$('#feedback').modal('show');
 	}
 	
+	//게시글로 이동
+	$('.article').on('click', function(e) {
+		e.preventDefault(); 
+		let articleForm = $('<form></form>');
+		let page = "${param.page}"
+		let bnoNum = $(this).attr("href");
+		articleForm.append($('<input/>', {type:'hidden', name:'bno', value:bnoNum}));
+		articleForm.append($('<input/>', {type:'hidden', name:'page', value:page}));
+		
+		if($('#keyword').val().trim()!='') {
+			articleForm.append($('#type')) // 검색타입
+			articleForm.append($('#keyword')) // 검색키워드
+		}
+		articleForm.attr('action','get');
+		articleForm.attr('method','get');
+		articleForm.appendTo('body');
+		articleForm.submit();
+	});
+	
 	// 페이지 이동
 	$('.pagination a').on('click', function(e) {
 		e.preventDefault();
@@ -157,16 +175,16 @@ $(function(){
 	});
 	
 	$('#searchForm button').on('click', function(e) {
-		e.preventDefault();
+		e.preventDefault(); 
 		if($('#type').val() =='') {
-			alert('타입을 선택하세요')
+			alert('검색타입을 선택하세요')
 			return; 	
 		}
 		if($('#keyword').val().trim() =='') {
 			alert('키워드를 입력하세요')
 			return;
 		}
-		$('#searchForm').submit() 
+		$('#searchForm').submit(); 
 	})
 });
 </script>
